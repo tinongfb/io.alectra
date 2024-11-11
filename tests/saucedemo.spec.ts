@@ -79,7 +79,7 @@ test('checkout', async ({ page }) => {
   const cartBadge = await page.$('.shopping_cart_badge');
   //expect(cartBadge).not.toBeNull();
   await page.click('#shopping_cart_container');
-  //console.log("Cart is not empty.");
+  console.log("Cart is not empty.");
 
   await page.click('#checkout');
     //await expect(page).toHaveTitle('Checkout: Your Information');
@@ -90,5 +90,24 @@ test('checkout', async ({ page }) => {
     await page.click('#continue');
     await page.click('#finish');
     await expect(page).toHaveURL('https://www.saucedemo.com/checkout-complete.html');
-    console.log("Checkout complete.");
+    
+    
+    //confirm cart has been emptied
+    const cartBadge1 = await page.$('.shopping_cart_badge');
+    if (cartBadge1 === null) {
+      console.log("Checkout complete.");
+    }
+
+});
+
+test('sorting', async ({ page }) => {
+  await page.goto('https://www.saucedemo.com/');
+  await page.goto('https://www.saucedemo.com/');
+  await page.fill('#user-name', 'standard_user');
+  await page.fill('#password', 'secret_sauce');
+  await page.click('#login-button');
+
+ // await page.click('#product_sort_container');
+ await page.selectOption('select.product_sort_container', { value: 'za' });
+
 });
