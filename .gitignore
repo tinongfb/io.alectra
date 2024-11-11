@@ -1,0 +1,36 @@
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+org.eclipse.oomph.p2/
+
+
+# Dependency directories
+node_modules/
+vendor/
+
+# Build directories
+dist/
+build/
+target/
+out/
+
+# IDE settings
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+
+# test
+C:\Users\cong\Desktop\gettingstarted\playwright-project\node_modules
+C:\Users\cong\Desktop\gettingstarted\node_modules
