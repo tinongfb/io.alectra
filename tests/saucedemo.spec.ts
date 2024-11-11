@@ -7,7 +7,7 @@ test('has title', async ({ page }) => {
   await expect(page).toHaveTitle('Swag Labs');
 });
 
-test('Login to saucedemo', async ({ page }) => {
+test('login to saucedemo', async ({ page }) => {
   // Navigate to the login page of Sauce Demo
   await page.goto('https://www.saucedemo.com/');
 
@@ -50,8 +50,7 @@ test('remove from cart', async ({ page }) => {
   await page.click('#login-button');
 
   //add to cart
-  const addToCartButtons = await page.$$('button[data-test^="add-to-cart-"]'); // Matches all buttons with data-test starting with "add-to-cart-"
-  // Loop through each button and click it
+  const addToCartButtons = await page.$$('button[data-test^="add-to-cart-"]');
   for (let button of addToCartButtons) {
     await button.click();
   }
@@ -64,4 +63,29 @@ test('remove from cart', async ({ page }) => {
   const cartBadge = await page.$('.shopping_cart_badge');
   expect(cartBadge).toBeNull(); //this element does not exist while cart is empty
 
+});
+
+test('checkout', async ({ page }) => {
+  await page.goto('https://www.saucedemo.com/');
+  await page.fill('#user-name', 'standard_user');
+  await page.fill('#password', 'secret_sauce');
+  await page.click('#login-button');
+  //add to cart
+  const addToCartButtons = await page.$$('button[data-test^="add-to-cart-"]');
+  for (let button of addToCartButtons) {
+    await button.click();
+  }
+  
+  const cartBadge = await page.$('.shopping_cart_badge');
+  //expect(cartBadge).not.toBeNull();
+  await page.click('#shopping_cart_container');
+  console.log("Cart is not empty.");
+
+  await page.click('#checkout');
+    //await expect(page).toHaveTitle('Checkout: Your Information');
+    await page.$('#checkout-info-container'); //check for the correct page
+    await page.fill('#first_name', 'secret_sauce');
+    await page.fill('#last_name', 'sauce');
+    await page.fill('#postal-code', '1234');
+    await page.click('#continue');
 });
