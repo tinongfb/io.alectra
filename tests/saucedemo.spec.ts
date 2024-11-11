@@ -79,13 +79,16 @@ test('checkout', async ({ page }) => {
   const cartBadge = await page.$('.shopping_cart_badge');
   //expect(cartBadge).not.toBeNull();
   await page.click('#shopping_cart_container');
-  console.log("Cart is not empty.");
+  //console.log("Cart is not empty.");
 
   await page.click('#checkout');
     //await expect(page).toHaveTitle('Checkout: Your Information');
     await page.$('#checkout-info-container'); //check for the correct page
-    await page.fill('#first_name', 'secret_sauce');
-    await page.fill('#last_name', 'sauce');
+    await page.fill('#first-name', 'secret_sauce');
+    await page.fill('#last-name', 'sauce');
     await page.fill('#postal-code', '1234');
     await page.click('#continue');
+    await page.click('#finish');
+    await expect(page).toHaveURL('https://www.saucedemo.com/checkout-complete.html');
+    console.log("Checkout complete.");
 });
