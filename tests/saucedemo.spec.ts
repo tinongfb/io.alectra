@@ -75,28 +75,28 @@ test('checkout', async ({ page }) => {
   for (let button of addToCartButtons) {
     await button.click();
   }
-  
+
   const cartBadge = await page.$('.shopping_cart_badge');
   //expect(cartBadge).not.toBeNull();
   await page.click('#shopping_cart_container');
   console.log("Cart is not empty.");
 
   await page.click('#checkout');
-    //await expect(page).toHaveTitle('Checkout: Your Information');
-    await page.$('#checkout-info-container'); //check for the correct page
-    await page.fill('#first-name', 'secret_sauce');
-    await page.fill('#last-name', 'sauce');
-    await page.fill('#postal-code', '1234');
-    await page.click('#continue');
-    await page.click('#finish');
-    await expect(page).toHaveURL('https://www.saucedemo.com/checkout-complete.html');
-    
-    
-    //confirm cart has been emptied
-    const cartBadge1 = await page.$('.shopping_cart_badge');
-    if (cartBadge1 === null) {
-      console.log("Checkout complete.");
-    }
+  //await expect(page).toHaveTitle('Checkout: Your Information');
+  await page.$('#checkout-info-container'); //check for the correct page
+  await page.fill('#first-name', 'secret_sauce');
+  await page.fill('#last-name', 'sauce');
+  await page.fill('#postal-code', '1234');
+  await page.click('#continue');
+  await page.click('#finish');
+  await expect(page).toHaveURL('https://www.saucedemo.com/checkout-complete.html');
+
+
+  //confirm cart has been emptied
+  const cartBadge1 = await page.$('.shopping_cart_badge');
+  if (cartBadge1 === null) {
+    console.log("Checkout complete.");
+  }
 
 });
 
@@ -107,7 +107,7 @@ test('sorting', async ({ page }) => {
   await page.fill('#password', 'secret_sauce');
   await page.click('#login-button');
 
- // await page.click('#product_sort_container');
- await page.selectOption('select.product_sort_container', { value: 'za' });
+  // await page.click('#product_sort_container');
+  await page.selectOption('select.product_sort_container', { value: 'za' });
 
 });
