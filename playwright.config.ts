@@ -11,7 +11,7 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: './testing',
   testMatch: '**/*.ts',
   /* Run tests in files in parallel */
   fullyParallel: true,
