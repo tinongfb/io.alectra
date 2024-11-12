@@ -29,6 +29,7 @@ test('login to saucedemo', async ({ page }) => {
   await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html'); // Verify that we are on the inventory page after login
   const productList = await page.isVisible('.inventory_list'); // Optionally, verify that an element on the page exists (like the product list)
   expect(productList).toBe(true);
+  await expect(page.locator('#about_sidebar_link')).not.toBeVisible();
 });
 
 test('add to cart', async ({ page }) => {
@@ -99,14 +100,12 @@ test('sorting reverse alphabetical', async ({ page }) => {
 });
 
 test('sorting lowest to highest', async ({ page }) => {
-  //const cheapestItem = await page.$('.inventory_item_price[data-test="inventory-item-price"]');
   await page.selectOption('select.product_sort_container', { value: 'lohi' }); // lowest to highest
   await page.waitForSelector('.inventory_item_price');
   const itemPrices = await page.$$eval('.inventory_item_price', items => items.map(item => item.textContent?.trim() || '')
   );
   const sortedItems = itemPrices.sort();
   expect(itemPrices).toEqual(sortedItems);
-
 });
 
 test('sorting alphabetical', async ({ page }) => {
@@ -121,7 +120,23 @@ test('sorting alphabetical', async ({ page }) => {
 });
 
 test('sorting highest to lowest', async ({ page }) => {
-  const cheapestItem = await page.$('.inventory_item_price[data-test="inventory-item-price"]');
-  await page.selectOption('select.product_sort_container', { value: 'hilo' }); // price highest to lowest
-  await expect(firstItem).toBe();
+  await page.selectOption('select.product_sort_container', { value: 'hilo' }); // lowest to highest
+  await page.waitForSelector('.inventory_item_price');
+  const itemPrices = await page.$$eval('.inventory_item_price', items => items.map(item => item.textContent?.trim() || '')
+  );
+  const sortedItems = itemPrices.sort().reverse();
+  expect(itemPrices).toEqual(sortedItems);
+});
+
+test('burger menu check', async ({page}) => {
+  await page.click('#react-burger-menu-btn');
+  const burgerMenu = await page.isVisible('.bm-menu');
+  const inventory = await page.locator('#inventory_sidebar_link');
+  await expect(inventory).toBeVisible();
+  const about = await page.locator('#about_sidebar_link');
+  await expect(about).toBeVisible();
+  const logout = await page.locator('#logout_sidebar_link');
+  await expect(logout).toBeVisible();
+  const reset = await page.locator('#reset_sidebar_link');
+  await expect(reset).toBeVisible();
 });
