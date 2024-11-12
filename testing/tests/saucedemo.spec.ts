@@ -137,14 +137,12 @@ test('all items burger menu check', async ({page}) => {
 
   // const inventory = await page.locator('#inventory_sidebar_link');
   // await expect(inventory).toBeVisible();
-
-
 });
 
 test('about burger menu check', async ({page}) => {
   await page.click('#react-burger-menu-btn');
  // const burgerMenu = await page.isVisible('.bm-menu');
-
+ await expect(page.locator('.bm-menu')).toBeVisible();
   await expect(page.locator('#about_sidebar_link')).toBeVisible();
   await page.locator('#about_sidebar_link').click();
   await expect(page).toHaveURL('https://saucelabs.com/');
@@ -153,11 +151,12 @@ test('about burger menu check', async ({page}) => {
 
 test('logout burger menu check', async ({page}) => {
   await page.click('#react-burger-menu-btn');
+  await expect(page.locator('.bm-menu')).toBeVisible();
   await expect(page.locator('#logout_sidebar_link')).toBeVisible();
   await page.locator('#logout_sidebar_link').click();
   await expect(page.locator('#user-name')).toBeVisible();
 
-  //https://www.saucedemo.com/
+  // https://www.saucedemo.com/
 
 });
 
