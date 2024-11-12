@@ -1,21 +1,21 @@
 import { expect, test } from '@playwright/test';
 
-test.beforeEach(async ({page}) => {
-    await page.goto('https://www.saucedemo.com/');
-    await page.fill('#user-name', 'standard_user');
-    await page.fill('#password', 'secret_sauce');
-    await page.click('#login-button');
+test.beforeEach(async ({ page }) => {
+  await page.goto('https://www.saucedemo.com/');
+  await page.fill('#user-name', 'standard_user');
+  await page.fill('#password', 'secret_sauce');
+  await page.click('#login-button');
 });
 
 test.describe('has title', () => {
-  test('no login', async ({page}) => {
+  test('no login', async ({ page }) => {
     await page.goto('https://www.saucedemo.com/');
     await expect(page).toHaveTitle('Swag Labs'); // Expect a title "to contain" a substring.
   })
 });
 
 test.describe('incorrect login', () => {
-  test('different login', async ({page}) => {
+  test('different login', async ({ page }) => {
     await page.goto('https://www.saucedemo.com/');
     await page.fill('#user-name', 'locked_out_user');
     await page.fill('#password', 'secret_sauce');
@@ -87,29 +87,36 @@ test('checkout', async ({ page }) => {
   if (cartBadge1 === null) {
     console.log("Checkout complete.");
   }
-
 });
 
 test('sorting reverse alphabetical', async ({ page }) => {
-  const firstItem = await page.$$eval('.inventory_item_name[data-test="inventory-item-name"]'); // Select the first item
-  await page.selectOption('select.product_sort_container', { value: 'za' }); // sort reverse alphabetical
-  await expect(firstItem).toBe();
-
+  await page.selectOption('select.product_sort_container', { value: 'za' }); // alphabetical
+  await page.waitForSelector('.inventory_item_name');
+  const itemNames = await page.$$eval('.inventory_item_name', items => items.map(item => item.textContent?.trim() || '')
+  );
+  const sortedItems = itemNames.sort().reverse();
+  expect(itemNames).toEqual(sortedItems);
 });
 
 test('sorting lowest to highest', async ({ page }) => {
-  
-  const cheapestItem = await page.$('.inventory_item_price[data-test="inventory-item-price"]');
+  //const cheapestItem = await page.$('.inventory_item_price[data-test="inventory-item-price"]');
   await page.selectOption('select.product_sort_container', { value: 'lohi' }); // lowest to highest
-  await expect(cheapestItem).toBe();
+  await page.waitForSelector('.inventory_item_price');
+  const itemPrices = await page.$$eval('.inventory_item_price', items => items.map(item => item.textContent?.trim() || '')
+  );
+  const sortedItems = itemPrices.sort();
+  expect(itemPrices).toEqual(sortedItems);
 
 });
 
 test('sorting alphabetical', async ({ page }) => {
-  const firstItem = await page.$$eval('.inventory_item_name[data-test="inventory-item-name"]'); // Select the first item
-
   await page.selectOption('select.product_sort_container', { value: 'az' }); // alphabetical
-  await expect(firstItem).toBe();
+  await page.waitForSelector('.inventory_item_name');
+  //const firstItem = await page.$$eval('.inventory_item_name[data-test="inventory-item-name"]'); // Select the first item
+  const itemNames = await page.$$eval('.inventory_item_name', items => items.map(item => item.textContent?.trim() || '')
+  );
+  const sortedItems = itemNames.sort();
+  expect(itemNames).toEqual(sortedItems);
 
 });
 
