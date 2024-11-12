@@ -1,2 +1,2 @@
-# typescript-testing
-a repository for practicing and learning testing using Playwright (in Typescript)
+# io.alectra
+a repository for practicing and learning, which includes but not limited to testing using Playwright (in Typescript)
