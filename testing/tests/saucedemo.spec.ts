@@ -128,15 +128,47 @@ test('sorting highest to lowest', async ({ page }) => {
   expect(itemPrices).toEqual(sortedItems);
 });
 
-test('burger menu check', async ({page}) => {
+test('all items burger menu check', async ({page}) => {
   await page.click('#react-burger-menu-btn');
-  const burgerMenu = await page.isVisible('.bm-menu');
-  const inventory = await page.locator('#inventory_sidebar_link');
-  await expect(inventory).toBeVisible();
-  const about = await page.locator('#about_sidebar_link');
-  await expect(about).toBeVisible();
-  const logout = await page.locator('#logout_sidebar_link');
-  await expect(logout).toBeVisible();
-  const reset = await page.locator('#reset_sidebar_link');
-  await expect(reset).toBeVisible();
+  await expect(page.locator('.bm-menu')).toBeVisible();
+  await expect(page.locator('#inventory_sidebar_link')).toBeVisible();
+  await page.locator('#inventory_sidebar_link').click();
+  await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+
+  // const inventory = await page.locator('#inventory_sidebar_link');
+  // await expect(inventory).toBeVisible();
+
+
+});
+
+test('about burger menu check', async ({page}) => {
+  await page.click('#react-burger-menu-btn');
+ // const burgerMenu = await page.isVisible('.bm-menu');
+
+  await expect(page.locator('#about_sidebar_link')).toBeVisible();
+  await page.locator('#about_sidebar_link').click();
+  await expect(page).toHaveURL('https://saucelabs.com/');
+
+});
+
+test('logout burger menu check', async ({page}) => {
+  await page.click('#react-burger-menu-btn');
+  await expect(page.locator('#logout_sidebar_link')).toBeVisible();
+  await page.locator('#logout_sidebar_link').click();
+  await expect(page.locator('#user-name')).toBeVisible();
+
+  //https://www.saucedemo.com/
+
+});
+
+test('reset burger menu check', async ({page}) => {
+  
+  await page.click('#add-to-cart-sauce-labs-backpack');
+  expect(page.locator('.shopping_cart_badge')).not.toBeNull();
+  await page.click('#react-burger-menu-btn');
+  await expect(page.locator('#reset_sidebar_link')).toBeVisible();
+
+  await page.locator('#reset_sidebar_link').click();
+  expect(page.locator('.shopping_cart_badge')).toBeNull();
+
 });
