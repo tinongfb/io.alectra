@@ -1,2 +1,2 @@
-# js-testing
+# typescript-testing
 a repository for practicing and learning testing using Playwright (in Typescript)
