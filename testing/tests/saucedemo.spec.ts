@@ -90,8 +90,31 @@ test('checkout', async ({ page }) => {
 
 });
 
-test('sorting', async ({ page }) => {
-  // await page.click('#product_sort_container');
-  await page.selectOption('select.product_sort_container', { value: 'za' });
-  const firstItem = await page.$('.inventory_item_name[data-test="inventory-item-name"]'); // Select the first item
+test('sorting reverse alphabetical', async ({ page }) => {
+  const firstItem = await page.$$eval('.inventory_item_name[data-test="inventory-item-name"]'); // Select the first item
+  await page.selectOption('select.product_sort_container', { value: 'za' }); // sort reverse alphabetical
+  await expect(firstItem).toBe();
+
+});
+
+test('sorting lowest to highest', async ({ page }) => {
+  
+  const cheapestItem = await page.$('.inventory_item_price[data-test="inventory-item-price"]');
+  await page.selectOption('select.product_sort_container', { value: 'lohi' }); // lowest to highest
+  await expect(cheapestItem).toBe();
+
+});
+
+test('sorting alphabetical', async ({ page }) => {
+  const firstItem = await page.$$eval('.inventory_item_name[data-test="inventory-item-name"]'); // Select the first item
+
+  await page.selectOption('select.product_sort_container', { value: 'az' }); // alphabetical
+  await expect(firstItem).toBe();
+
+});
+
+test('sorting highest to lowest', async ({ page }) => {
+  const cheapestItem = await page.$('.inventory_item_price[data-test="inventory-item-price"]');
+  await page.selectOption('select.product_sort_container', { value: 'hilo' }); // price highest to lowest
+  await expect(firstItem).toBe();
 });
