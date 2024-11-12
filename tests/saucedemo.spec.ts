@@ -1,10 +1,19 @@
 import { expect, test } from '@playwright/test';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
+test.describe('setup', () => {
+  test.beforeEach(async ({page}) => {
+    await page.goto('https://www.saucedemo.com/');
+    await page.fill('#user-name', 'standard_user');
+    await page.fill('#password', 'secret_sauce');
+    await page.click('#login-button');
+  })
+});
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle('Swag Labs');
+test.describe('has title', () => {
+  test(async ({page}) => {
+    await page.goto('https://www.saucedemo.com/');
+    await expect(page).toHaveTitle('Swag Labs'); // Expect a title "to contain" a substring.
+  })
 });
 
 test('login to saucedemo', async ({ page }) => {
@@ -109,5 +118,7 @@ test('sorting', async ({ page }) => {
 
   // await page.click('#product_sort_container');
   await page.selectOption('select.product_sort_container', { value: 'za' });
+  const firstItem = await page.$('.inventory_item_name[data-test="inventory-item-name"]'); // Select the first item
+
 
 });
