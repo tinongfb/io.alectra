@@ -1,6 +1,7 @@
 node_modules/
 /blob-report/
 /playwright/.cache/
+/playwright-report/
 
 
 org.eclipse.oomph.p2/
