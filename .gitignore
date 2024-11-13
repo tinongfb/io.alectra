@@ -2,7 +2,7 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright-report/
-
+/webapps/my-webapp/node_modules/
 
 org.eclipse.oomph.p2/
 
