@@ -55,9 +55,9 @@ test('remove from cart', async ({ page }) => {
   for (let rmvButton of removeFromCartButtons) {
     await rmvButton.click();
   }
-
-  const cartBadge = await page.$('.shopping_cart_badge');
-  expect(cartBadge).toBeNull(); //this element does not exist while cart is empty
+  await expect(page.locator('.shopping_cart_badge')).toHaveCount(0);
+  // const cartBadge = await page.$('.shopping_cart_badge');
+  // expect(cartBadge).toBeNull(); //this element does not exist while cart is empty
 });
 
 test('checkout', async ({ page }) => {
@@ -128,7 +128,7 @@ test('sorting highest to lowest', async ({ page }) => {
   expect(itemPrices).toEqual(sortedItems);
 });
 
-test('all items burger menu check', async ({page}) => {
+test('all items burger menu check', async ({ page }) => {
   await page.click('#react-burger-menu-btn');
   await expect(page.locator('.bm-menu')).toBeVisible();
   await expect(page.locator('#inventory_sidebar_link')).toBeVisible();
@@ -139,17 +139,17 @@ test('all items burger menu check', async ({page}) => {
   // await expect(inventory).toBeVisible();
 });
 
-test('about burger menu check', async ({page}) => {
+test('about burger menu check', async ({ page }) => {
   await page.click('#react-burger-menu-btn');
- // const burgerMenu = await page.isVisible('.bm-menu');
- await expect(page.locator('.bm-menu')).toBeVisible();
+  // const burgerMenu = await page.isVisible('.bm-menu');
+  await expect(page.locator('.bm-menu')).toBeVisible();
   await expect(page.locator('#about_sidebar_link')).toBeVisible();
   await page.locator('#about_sidebar_link').click();
   await expect(page).toHaveURL('https://saucelabs.com/');
 
 });
 
-test('logout burger menu check', async ({page}) => {
+test('logout burger menu check', async ({ page }) => {
   await page.click('#react-burger-menu-btn');
   await expect(page.locator('.bm-menu')).toBeVisible();
   await expect(page.locator('#logout_sidebar_link')).toBeVisible();
@@ -160,14 +160,16 @@ test('logout burger menu check', async ({page}) => {
 
 });
 
-test('reset burger menu check', async ({page}) => {
-  
+test('reset burger menu check', async ({ page }) => {
+
   await page.click('#add-to-cart-sauce-labs-backpack');
-  expect(page.locator('.shopping_cart_badge')).not.toBeNull();
+  expect(page.locator('.shopping_cart_badge')).toHaveCount(1);
   await page.click('#react-burger-menu-btn');
   await expect(page.locator('#reset_sidebar_link')).toBeVisible();
 
   await page.locator('#reset_sidebar_link').click();
-  expect(page.locator('.shopping_cart_badge')).toBeNull();
+ // const cartBadge = await page.$('.shopping_cart_badge');
+  //expect(cartBadge).toBeNull(); 
+  await expect(page.locator('.shopping_cart_badge')).toHaveCount(0);
 
 });
